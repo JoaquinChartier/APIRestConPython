@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.http import JsonResponse
+import json
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -28,6 +29,9 @@ def me(request):
 @csrf_exempt
 def get_links(request):
     permission_classes = (IsAuthenticated,)
-    html = get_html("")
-    scrape_html(html)
-    return HttpResponse('Get links', content_type='application/json')
+    body = json.loads(request.body)
+    html = get_html(body.url)
+    exported_list = scrape_html(html)
+    fl_path = create_csv(exported_list)
+    response = download_file(fl_path)
+    return response
