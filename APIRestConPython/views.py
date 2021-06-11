@@ -24,14 +24,17 @@ class MyTokenObtainPairView(TokenObtainPairView):
 def me(request):
     permission_classes = (IsAuthenticated,)
     res = get_data_from_header(request.META['HTTP_AUTHORIZATION'])
-    return JsonResponse(res) #, content_type='application/json'
+    return JsonResponse(res)
 
 @csrf_exempt
 def get_links(request):
     permission_classes = (IsAuthenticated,)
     body = json.loads(request.body)
-    html = get_html(body.url)
+    html = get_html(body['url'])
     exported_list = scrape_html(html)
-    fl_path = create_csv(exported_list)
-    response = download_file(fl_path)
-    return response
+    fl_path = route(exported_list, body['output'])
+    try:
+        response = download_file(fl_path)
+        return response
+    except UnicodeDecodeError:
+        return JsonResponse({"error":"an error ocurred: UnicodeDecodeError"})
