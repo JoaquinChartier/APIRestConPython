@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from APIRestConPython.functions import *
 from rest_framework.permissions import IsAuthenticated
 from django.views.decorators.csrf import csrf_exempt
@@ -32,9 +31,9 @@ def get_links(request):
     body = json.loads(request.body)
     html = get_html(body['url'])
     exported_list = scrape_html(html)
-    fl_path = route(exported_list, body['output'])
     try:
-        response = download_file(fl_path)
-        return response
+        return route(exported_list, body['output'])
     except UnicodeDecodeError:
         return JsonResponse({"error":"an error ocurred: UnicodeDecodeError"})
+    except:
+        return JsonResponse({"error":"an unexpected error ocurred"})
