@@ -1,0 +1,62 @@
+FORMAT: 1A
+
+HOST: http://127.0.0.1:8000
+
+# APIRestConPython
+
+APIRestConPython is a rest API made with Python to scrape "<a>" tags from a web page
+
+## Log In [/login]
+
+### Login [POST]
+
++ Request (application/json)
+
+        {
+            "username":"demo@usuario.com",
+            "password":"aquiLaPassDeLaConsigna"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYyMzYyMDY2NiwianRpIjoiZGI1ZWU1OGZlMjc5NDkxOWE3Y2EwNDRjNTU2ZjMyNGYiLCJ1c2VyX2lkIjoyLCJlbWFpbCI6ImRlbW9AdXN1YXJpby5jb20ifQ.hJV26BNOWJZRAw0xBvNvdE0PaFsVj-1dZDIEzIMINAQ",
+            "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjIzNTM0NTY2LCJqdGkiOiIyODEzOGViMmE4NTE0MmJmYTM1NDA5ODIwYTEyMjBlMyIsInVzZXJfaWQiOjIsImVtYWlsIjoiZGVtb0B1c3VhcmlvLmNvbSJ9.1fEPod13RRW5Z6rWEv0WALjd0e6I9a-OFFmPVPW7iPE"
+        }
+
+## Profile info [/me]
+
+### Get profile information [POST]
+
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer JWT
+
++ Response 200 (application/json)
+
+        {
+            "token_type": "access",
+            "exp": 1623534566,
+            "jti": "28138eb2a85142bfa35409820a1220e3",
+            "user_id": 2,
+            "email": "demo@usuario.com"
+        }
+
+## Get links [/get-links]
+
+### Return anchor tags from requested resource [POST]
+
++ Request (application/json)
+
+        {
+            "url":"https://startuplinks.world/",
+            "output":"xlsx"
+        }
+
+    + Headers
+    
+            Authorization: Bearer JWT
+
++ Response 200 (application/ms-excel)

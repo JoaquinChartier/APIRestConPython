@@ -9,7 +9,6 @@ from django.http import HttpResponse
 import codecs
 import xlwt
 
-
 def get_data_from_header(auth_header):
     #Get Auth token and return the payload
     auth_header = auth_header.split('Bearer ')[1]
@@ -41,7 +40,7 @@ def route(exported_list, file_type):
         return download_xlsx(fl_path)
     else:
         fl_path = create_csv(exported_list)
-        return download_csv(exported_list)
+        return download_csv(fl_path)
 
 def create_csv(exported_list):
     #Write CSV file
